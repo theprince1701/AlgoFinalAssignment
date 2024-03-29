@@ -29,6 +29,12 @@ struct ShortestRouteInfo
 class Graph
 {
 public:
+    int CalculateTimeComplexitiy(int V, int E, int C)
+    {
+        return (V + E) * log(V) + V + E + V * C;
+
+    }
+
     vector<Node*> nodes;
 
     void AddNode(Node* Node)
@@ -65,7 +71,7 @@ public:
                 return node;
             }
         }
-        return nullptr; // Return nullptr if node with given label is not found
+        return nullptr; 
     }
 
     char GetShortestRoute(Node* Source)
@@ -84,17 +90,19 @@ public:
             Node* u = pq.top().second;
             pq.pop();
 
-            for (auto neighbor : u->neighbors) {
+            for (auto neighbor : u->neighbors)
+            {
                 Node* v = neighbor.first;
                 int weight = neighbor.second;
-                if (distance[u->label] + weight < distance[v->label]) {
+                if (distance[u->label] + weight < distance[v->label]) 
+                {
                     distance[v->label] = distance[u->label] + weight;
                     pq.push(make_pair(distance[v->label], v));
                 }
             }
         }
 
-        char nearestChargingStation = ' '; // Default value if no charging station is found
+        char nearestChargingStation = ' '; 
         int minDistance = INF;
         for (auto it : distance)
         {
@@ -113,8 +121,6 @@ public:
 
 int main()
 {
-    std::cout << "Hello World!\n";
-
     Graph graph;
 
 
@@ -131,11 +137,8 @@ int main()
     graph.AddEdge(graph.nodes['B' - 'A'], graph.nodes['C' - 'A'], 5);
     // Distance from B to G is 6
     graph.AddEdge(graph.nodes['B' - 'A'], graph.nodes['G' - 'A'], 6);
-    // Continue adding edges down to node W with their respective distances
 
-    // Add edges with their respective distances continued down to node W
-    // Example:
-    // Distance from C to D is 5
+
     graph.AddEdge(graph.nodes['C' - 'A'], graph.nodes['D' - 'A'], 7);
     // Distance from C to H is 3
     graph.AddEdge(graph.nodes['C' - 'A'], graph.nodes['H' - 'A'], 5);
@@ -143,11 +146,8 @@ int main()
     graph.AddEdge(graph.nodes['D' - 'A'], graph.nodes['E' - 'A'], 7);
     // Distance from D to I is 7
     graph.AddEdge(graph.nodes['D' - 'A'], graph.nodes['I' - 'A'], 8);
-    // Continue adding edges down to node W with their respective distances
 
-    // Add edges with their respective distances continued down to node W
-    // Example:
-    // Distance from E to J is 2
+
     graph.AddEdge(graph.nodes['E' - 'A'], graph.nodes['N' - 'A'], 15);
     // Distance from F to J is 5
     graph.AddEdge(graph.nodes['F' - 'A'], graph.nodes['K' - 'A'], 7);
@@ -155,11 +155,8 @@ int main()
     graph.AddEdge(graph.nodes['F' - 'A'], graph.nodes['G' - 'A'], 8);
     // Distance from H to M is 4
     graph.AddEdge(graph.nodes['H' - 'A'], graph.nodes['M' - 'A'], 4);
-    // Continue adding edges down to node W with their respective distances
 
-    // Add edges with their respective distances continued down to node W
-    // Example:
-    // Distance from I to N is 6
+
     graph.AddEdge(graph.nodes['I' - 'A'], graph.nodes['N' - 'A'], 6);
     // Distance from J to O is 5
     graph.AddEdge(graph.nodes['J' - 'A'], graph.nodes['O' - 'A'], 5);
@@ -167,11 +164,8 @@ int main()
     graph.AddEdge(graph.nodes['K' - 'A'], graph.nodes['P' - 'A'], 2);
     // Distance from L to Q is 4
     graph.AddEdge(graph.nodes['L' - 'A'], graph.nodes['Q' - 'A'], 4);
-    // Continue adding edges down to node W with their respective distances
 
-    // Add edges with their respective distances continued down to node W
-    // Example:
-    // Distance from M to R is 5
+
     graph.AddEdge(graph.nodes['M' - 'A'], graph.nodes['R' - 'A'], 5);
     // Distance from N to S is 6
     graph.AddEdge(graph.nodes['N' - 'A'], graph.nodes['S' - 'A'], 6);
@@ -179,11 +173,8 @@ int main()
     graph.AddEdge(graph.nodes['O' - 'A'], graph.nodes['T' - 'A'], 3);
     // Distance from P to U is 2
     graph.AddEdge(graph.nodes['P' - 'A'], graph.nodes['U' - 'A'], 2);
-    // Continue adding edges down to node W with their respective distances
 
-    // Add edges with their respective distances continued down to node W
-    // Example:
-    // Distance from Q to V is 7
+
     graph.AddEdge(graph.nodes['Q' - 'A'], graph.nodes['V' - 'A'], 7);
     // Distance from R to W is 3
     graph.AddEdge(graph.nodes['R' - 'A'], graph.nodes['W' - 'A'], 3);
@@ -200,6 +191,10 @@ int main()
     char GasStation = graph.GetShortestRoute(graph.GetNodeFromLabel('B'));
 
     cout << GasStation << endl;
+
+    int timeComplexity = graph.CalculateTimeComplexitiy(20, 30, 4);
+    cout << "Time Complexity: O(" << timeComplexity << ")" << endl;
+
 
     for (Node* node : graph.nodes)
     {
